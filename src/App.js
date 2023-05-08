@@ -1,3 +1,6 @@
+import Movies from "./components/Movies";
+import AddNewMovie from "./pages/AddNewMovie";
+
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -6,10 +9,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Movies List</p>
-        <p className="App-link" rel="noopener noreferrer">
-          This will be a list of movies!
-        </p>
+        <Movies />
+        <AddNewMovie />
       </header>
     </div>
   );
