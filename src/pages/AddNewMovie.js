@@ -1,18 +1,26 @@
+import Input from "../components/Input";
+import Button from "../components/Button";
+
 const AddNewMovie = () => {
+  const submitHandler = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <h2>Add New Movie</h2>
-      <form>
-        <label>Title:</label>
-        <input type="text" />
-        <label>Author:</label>
-        <input type="text" />
-        <label>Type:</label>
-        <input type="text" />
-        <label>Description:</label>
-        <input type="text" />
-        <button type="submit">Save</button>
-        <button type="reset">Reset</button>
+      <form
+        onSubmit={submitHandler}
+        className="flex flex-col justify-center items-center my-6"
+      >
+        <Input name="Title:" />
+        <Input name="Author:" />
+        <Input name="Type:" />
+        <Input name="Description:" />
+        <div className="flex justify-between">
+          <Button name="Save" type="submit" />
+          <Button name="Reset" type="reset" />
+        </div>
       </form>
     </>
   );
