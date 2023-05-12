@@ -4,6 +4,8 @@ import Button from "../components/Button";
 const AddNewMovie = () => {
   const submitHandler = (event) => {
     event.preventDefault();
+
+    
   };
 
   return (

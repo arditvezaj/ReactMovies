@@ -1,19 +1,22 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import Movies from "./components/Movies";
 import AddNewMovie from "./pages/AddNewMovie";
+import RootLayout from "./pages/Root";
 
-import logo from "./logo.svg";
-import "./App.css";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <Movies /> },
+      { path: "add-movie", element: <AddNewMovie /> },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Movies />
-        <AddNewMovie />
-      </header>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
