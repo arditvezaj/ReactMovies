@@ -1,6 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const MainNavigation = () => {
+  const isLogged = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+    window.location.reload();
+  };
+
   return (
     <div className="px-6 flex justify-between items-center bg-violet-300 text-2xl h-[70px]">
       <NavLink
@@ -9,21 +18,30 @@ const MainNavigation = () => {
       >
         Home
       </NavLink>
-      <div className="mr-20 w-[15%] flex justify-between items-center">
-        <NavLink
-          to="/add-movie"
-          className="p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
-        >
-          Add Movie
-        </NavLink>
 
+      {isLogged ? (
+        <div className="mr-20 w-[15%] flex justify-between items-center">
+          <NavLink
+            to="/add-movie"
+            className="p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
+          >
+            Add Movie
+          </NavLink>
+          <div
+            onClick={logoutHandler}
+            className="cursor-pointer p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
+          >
+            Logout
+          </div>
+        </div>
+      ) : (
         <NavLink
           to="/login"
-          className="p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
+          className="mr-20 p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
         >
           Login
         </NavLink>
-      </div>
+      )}
     </div>
   );
 };

@@ -13,10 +13,10 @@ const AddNewMovie = () => {
         onSubmit={submitHandler}
         className="flex flex-col justify-center items-center my-6 text-lg"
       >
-        <Input name="Title:" />
-        <Input name="Author:" />
-        <Input name="Type:" />
-        <Input name="Description:" />
+        <Input name="Title:" type="text" />
+        <Input name="Author:" type="text" />
+        <Input name="Type:" type="text" />
+        <Input name="Description:" type="text" />
         <div className="flex justify-between items-center">
           <Button name="Save" type="submit" />
           <Button name="Reset" type="reset" />

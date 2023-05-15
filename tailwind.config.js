@@ -9,6 +9,7 @@ module.exports = {
     "./src/pages/MovieDetails.js",
     "./src/pages/Root.js",
     "./src/pages/Error.js",
+    "./src/pages/Login.js",
     "./src/App.js",
   ],
   theme: {
