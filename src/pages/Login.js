@@ -26,11 +26,10 @@ const Login = () => {
       return;
     }
     setIsValid(true);
-    setUsername("");
-    setPassword("");
     localStorage.setItem("token", username);
+    setUsername("");
+    setPassword("")
     navigate("/");
-    window.location.reload();
   };
 
   return (
