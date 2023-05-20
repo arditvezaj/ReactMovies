@@ -1,8 +1,9 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { useState } from "react";
+import axios from "axios";
 
-const AddNewMovie = () => {
+const AddNewMovie = (props) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [type, setType] = useState("");
@@ -14,7 +15,7 @@ const AddNewMovie = () => {
     setState(event.target.value);
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     if (
@@ -28,7 +29,23 @@ const AddNewMovie = () => {
     }
 
     setIsValid(true);
-    console.log(title, author, type, description);
+    const response = await axios.post(
+      "https://react-movies-daa30-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
+      [
+        {
+          title,
+          author,
+          type,
+          description,
+        },
+      ],
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+      
     setTitle("");
     setAuthor("");
     setType("");
@@ -67,12 +84,7 @@ const AddNewMovie = () => {
           value={author}
           onChange={handleChange(setAuthor)}
         />
-        <Input
-          name="Type:"
-          type="text"
-          value={type}
-          onChange={handleChange(setType)}
-        />
+        <Input type="text" value={type} onChange={handleChange(setType)} />
         <div className="flex flex-col">
           <label className="mt-5">Description:</label>
           <textarea

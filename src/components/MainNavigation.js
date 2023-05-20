@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 
 const MainNavigation = () => {
-  const isLogged = localStorage.getItem("token");
+  const isAuth = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -19,8 +19,8 @@ const MainNavigation = () => {
         Home
       </NavLink>
 
-      {isLogged ? (
-        <div className="mr-20 w-[15%] flex justify-between items-center">
+      {isAuth ? (
+        <div className="mr-20 w-[25%] flex justify-between items-center">
           <NavLink
             to="/add-movie"
             className="p-2 rounded-md hover:bg-violet-200 transition-all duration-500"

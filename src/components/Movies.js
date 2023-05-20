@@ -1,5 +1,21 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const Movies = () => {
+  const [movies, setMovies] = useState([]);
   const isAuth = localStorage.getItem("token");
+
+  const getMovies = async () => {
+    const response = await axios.get(
+      "https://react-movies-daa30-default-rtdb.europe-west1.firebasedatabase.app/movies.json"
+    );
+    setMovies(response.data);
+    console.log(response.data);
+  };
+
+  useEffect(() => {
+    getMovies();
+  }, []);
   return (
     <>
       {isAuth ? (
@@ -7,25 +23,23 @@ const Movies = () => {
           <h1 className="text-3xl font-bold mt-8 text-center text-violet-800">
             Movies
           </h1>
-          <ul className="flex flex-col justify-center items-center mt-6 text-xl">
-            <li className="flex flex-col">
-              <div>Title: The black Panther</div>
-              <div>Author: Chris Brown</div>
-              <div>Type: Drama</div>
-              <div>Description: It is about a man and a panther</div>
-            </li>
-
-            <li className="flex flex-col mt-10">
-              <div>Title: Avatar</div>
-              <div>Author: Chris Brown</div>
-              <div>Type: Drama</div>
-              <div>Description: It is about a man and a panther</div>
-            </li>
+          <ul>
+            {/* {movies.map((movie) => (
+              <li className="flex flex-col">
+                <div>Title: {movie.title}</div>
+                <div>Author: {movie.author}</div>
+                <div>Type: {movie.type}</div>
+                <div>Description: {movie.description}</div>
+              </li>
+            ))} */}
+            {movies.title}
           </ul>
         </div>
       ) : (
         <div>
-          <p>Please login to see movies!</p>
+          <p className="text-3xl text-center mt-10">
+            Please login to see movies!
+          </p>
         </div>
       )}
     </>
