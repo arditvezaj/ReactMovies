@@ -6,43 +6,63 @@ const MainNavigation = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
     window.location.reload();
   };
 
   return (
-    <div className="px-6 flex justify-between items-center bg-violet-300 text-2xl h-[70px]">
-      <NavLink
-        to="/"
-        className="p-2 rounded-md hover:bg-violet-200 transition-all duration-500 "
-      >
-        Home
-      </NavLink>
+    <header className="px-6 bg-violet-300 text-2xl h-[70px]">
+      <nav>
+        <ul className="flex justify-between items-center pt-3">
+          <li>
+            <NavLink
+              to="/"
+              className={`${({ isActive }) =>
+                isActive
+                  ? "bg-violet-200"
+                  : undefined} p-2 rounded-md hover:bg-violet-200 transition-all duration-500`}
+              end
+            >
+              Home
+            </NavLink>
+          </li>
 
-      {isAuth ? (
-        <div className="mr-20 w-[25%] flex justify-between items-center">
-          <NavLink
-            to="/add-movie"
-            className="p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
-          >
-            Add Movie
-          </NavLink>
-          <div
-            onClick={logoutHandler}
-            className="cursor-pointer p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
-          >
-            Logout
-          </div>
-        </div>
-      ) : (
-        <NavLink
-          to="/login"
-          className="mr-20 p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
-        >
-          Login
-        </NavLink>
-      )}
-    </div>
+          {isAuth ? (
+            <div className="mr-20 w-[25%] flex justify-between items-center">
+              <li>
+                <NavLink
+                  to="/add-movie"
+                  className={`${({ isActive }) =>
+                    isActive
+                      ? "bg-violet-200"
+                      : "bg-red-500"} p-2 rounded-md hover:bg-violet-200 transition-all duration-500`}
+                >
+                  Add Movie
+                </NavLink>
+              </li>
+              <li
+                onClick={logoutHandler}
+                className="cursor-pointer p-2 rounded-md hover:bg-violet-200 transition-all duration-500"
+              >
+                Logout
+              </li>
+            </div>
+          ) : (
+            <li>
+              <NavLink
+                to="/login"
+                className={`${({ isActive }) =>
+                  isActive
+                    ? "bg-violet-200"
+                    : undefined} mr-20 p-2 rounded-md hover:bg-violet-200 transition-all duration-500`}
+              >
+                Login
+              </NavLink>
+            </li>
+          )}
+        </ul>
+      </nav>
+    </header>
   );
 };
 

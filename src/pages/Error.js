@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
+import Error404 from "../assets/images/error404.avif";
 
 const Error = () => {
   return (
-    <div className="text-3xl mt-[40vh] flex flex-col justify-center items-center">
-      <div>Error 404!</div>
-      <div>Page Not Found ! Please try a different page</div>
+    <div className="text-3xl flex flex-col justify-center items-center">
+      <img src={Error404} alt="error" className="mt-[15vh] w-[30rem]" />
+      <div className="mt-4">Page Not Found ! Please try a different page</div>
       <Link
         to="/"
-        className="bg-green-300 hover:bg-green-200 p-2 px-4 mt-6 rounded-md"
+        className="bg-yellow-400 hover:bg-yellow-200 p-2 px-4 mt-12 rounded-md"
         type="button"
       >
         Return Home

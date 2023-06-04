@@ -6,11 +6,17 @@ const Movies = () => {
   const isAuth = localStorage.getItem("token");
 
   const getMovies = async () => {
-    const response = await axios.get(
-      "https://react-movies-daa30-default-rtdb.europe-west1.firebasedatabase.app/movies.json"
+    const response = await fetch(
+      "https://react-movies-daa30-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      }
     );
     setMovies(response.data);
-    console.log(response.data);
+    console.log(response);
   };
 
   useEffect(() => {
@@ -32,7 +38,6 @@ const Movies = () => {
                 <div>Description: {movie.description}</div>
               </li>
             ))} */}
-            {movies.title}
           </ul>
         </div>
       ) : (

@@ -27,25 +27,17 @@ const AddNewMovie = (props) => {
       setIsValid(false);
       return;
     }
-
     setIsValid(true);
     const response = await axios.post(
       "https://react-movies-daa30-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
-      [
-        {
-          title,
-          author,
-          type,
-          description,
-        },
-      ],
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        title,
+        author,
+        type,
+        description,
       }
     );
-      
+    console.log(response.data);
     setTitle("");
     setAuthor("");
     setType("");

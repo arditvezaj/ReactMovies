@@ -1,47 +1,41 @@
-import { Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import MainNavigation from "./components/MainNavigation";
-import axios from "axios";
-
-
-let title = "";
-let author = "";
-let type = "";
-let description = "";
-
-const dataHandler = (data) => {
-  title = data.title;
-  author = data.author;
-  type = data.type;
-  description = data.description;
-};
-
-const addMovieHandler = async () => {
-  try {
-    const { response } = await axios.post(
-      "https://react-movies-daa30-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
-      { title: title, author: author, type: type, description: description },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-  }
-};
+import Movies from "./components/Movies";
+import AddNewMovie from "./pages/AddNewMovie";
+import Error from "./pages/Error";
+import Login from "./pages/Login";
+import RootLayout from "./pages/Root";
 
 const App = () => {
-  return (
-    <>
-      <MainNavigation />
-      <main>
-        <Outlet />
-      </main>
-    </>
-  );
+  const isAuth = localStorage.getItem("token");
+
+  const loginRoutes = [
+    {
+      path: "/",
+      element: <RootLayout />,
+      errorElement: <Error />,
+      children: [
+        { index: true, element: <Movies /> },
+        { path: "login", element: <Login /> },
+      ],
+    },
+  ];
+
+  const routes = [
+    {
+      path: "/",
+      element: <RootLayout />,
+      errorElement: <Error />,
+      children: [
+        { index: true, element: <Movies /> },
+        { path: "add-movie", element: <AddNewMovie /> },
+      ],
+    },
+  ];
+
+  const router = createBrowserRouter(isAuth ? routes : loginRoutes);
+
+  return <RouterProvider router={router} />;
 };
 
 export default App;
