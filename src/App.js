@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useEffect } from "react";
 
 import Movies from "./components/Movies";
 import AddNewMovie from "./pages/AddNewMovie";
@@ -6,8 +7,19 @@ import Error from "./pages/Error";
 import Login from "./pages/Login";
 import RootLayout from "./pages/Root";
 
+import { useRecoilState } from "recoil";
+import { isAuthenticated } from "./recoil/atoms/isAuthenticated";
+
 const App = () => {
-  const isAuth = localStorage.getItem("token");
+  const [isAuth, setIsAuth] = useRecoilState(isAuthenticated);
+
+  useEffect(() => {
+    if (localStorage.getItem("token") === null) {
+      setIsAuth(false);
+    } else {
+      setIsAuth(true);
+    }
+  }, [setIsAuth]);
 
   const loginRoutes = [
     {

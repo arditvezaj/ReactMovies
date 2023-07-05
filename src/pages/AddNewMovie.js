@@ -1,7 +1,7 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { useState } from "react";
-import axios from "axios";
+import API from "../api";
 
 const AddNewMovie = (props) => {
   const [title, setTitle] = useState("");
@@ -28,15 +28,11 @@ const AddNewMovie = (props) => {
       return;
     }
     setIsValid(true);
-    const response = await axios.post(
-      "https://react-movies-daa30-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
-      {
-        title,
-        author,
-        type,
-        description,
-      }
-    );
+    const response = await API.post(`posts`, {
+      title: title,
+      body: description,
+      userId: Date.now().toString(),
+    });
     console.log(response.data);
     setTitle("");
     setAuthor("");
