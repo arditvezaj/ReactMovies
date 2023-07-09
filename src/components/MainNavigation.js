@@ -28,18 +28,7 @@ const MainNavigation = () => {
           </li>
 
           {isAuth ? (
-            <div className="mr-20 w-[25%] flex justify-between items-center">
-              <li>
-                <NavLink
-                  to="/add-movie"
-                  className={`${({ isActive }) =>
-                    isActive
-                      ? "bg-violet-200"
-                      : "bg-red-500"} p-2 rounded-md hover:bg-violet-200 transition-all duration-500`}
-                >
-                  Add Movie
-                </NavLink>
-              </li>
+            <div className="flex justify-between items-center">
               <li
                 onClick={logoutHandler}
                 className="cursor-pointer p-2 rounded-md hover:bg-violet-200 transition-all duration-500"

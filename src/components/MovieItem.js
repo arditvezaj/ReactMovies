@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import MovieItem from "./MovieItem";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "./Button";
 import Typography from "@mui/material/Typography";
@@ -7,10 +6,8 @@ import Modal from "@mui/material/Modal";
 import Input from "./Input";
 import API from "../api";
 
-const Movies = () => {
-  const [movies, setMovies] = useState([]);
-
-  const [newModal, setNewModal] = useState(false);
+const MovieItem = (props) => {
+  const [editModal, setEditModal] = useState(false);
 
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -18,24 +15,13 @@ const Movies = () => {
   const [description, setDescription] = useState("");
 
   const [isValid, setIsValid] = useState(true);
-  const isAuth = localStorage.getItem("token");
-
-  const getMovies = async () => {
-    const response = await API.get(`posts`);
-    setMovies(response.data);
-    console.log(response.data);
-  };
-
-  useEffect(() => {
-    getMovies();
-  }, []);
 
   const handleChange = (setState) => (event) => {
     setState(event.target.value);
   };
 
-  const addMovie = async () => {
-    const response = await API.post(`posts`, {
+  const editMovie = async (id) => {
+    const response = await API.put(`posts/${id}`, {
       title: title,
       author: author,
       body: description,
@@ -58,20 +44,12 @@ const Movies = () => {
       return;
     }
     setIsValid(true);
-    addMovie();
-    setNewModal(false);
+    editMovie(props.movie.id);
+    setEditModal(false);
     setTitle("");
     setAuthor("");
     setType("");
     setDescription("");
-  };
-
-  const deleteMovie = async (id) => {
-    const response = await API.delete(`posts/${id}`);
-    const filteredMovies = movies.filter((movie) => movie.id !== id);
-    setMovies(filteredMovies);
-    
-    console.log(response);
   };
 
   const style = {
@@ -88,49 +66,42 @@ const Movies = () => {
   };
 
   return (
-    <>
-      {isAuth ? (
-        <div className="flex flex-col justify-center items-center">
-          <div className="flex justify-between mt-8 w-[60%]">
-            <h1 className="text-3xl mt-4 ml-3 font-bold  text-violet-800">
-              Movies
-            </h1>
-            <Button
-              name="Add Movie"
-              onClick={() => {
-                setNewModal(true);
-              }}
-            ></Button>
-          </div>
+    <li
+      key={props.movie.id}
+      className="flex flex-col justify-center border rounded-md mt-4 w-[60%] p-2"
+    >
+      <div className="font-bold">{props.movie.title}</div>
+      <div>Author: {props.movie.author}</div>
+      <div>Type: {props.movie.type}</div>
+      <div className="flex">Description: {props.movie.body}</div>
+      <div className="flex gap-2 justify-end">
+        <button
+          onClick={() => {
+            setEditModal(true);
+          }}
+          className="p-2 bg-gray-500 w-24 text-white rounded-md"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => {
+            props.onDeleteMovie(props.movie.id);
+          }}
+          className="p-2 bg-red-500 w-24 text-white rounded-md"
+        >
+          Delete
+        </button>
+      </div>
 
-          <ul className="flex flex-col justify-center items-center p-4 ">
-            {movies.slice(0, 10).map((movie) => (
-              <MovieItem
-                key={movie.id}
-                movie={movie}
-                onDeleteMovie={() => {
-                  deleteMovie(movie.id);
-                }}
-              />
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>
-          <p className="text-3xl text-center mt-10">
-            Please login to see movies!
-          </p>
-        </div>
-      )}
       <Modal
-        open={newModal}
+        open={editModal}
         onClose={() => {
-          setNewModal(false);
+          setEditModal(false);
         }}
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add New Movie
+            Edit Movie
           </Typography>
           <form
             onSubmit={submitHandler}
@@ -165,8 +136,9 @@ const Movies = () => {
             <div className="flex justify-between items-center">
               <Button
                 name="Cancel"
+                type="cancel"
                 onClick={() => {
-                  setNewModal(false);
+                  setEditModal(false);
                 }}
               />
               <Button name="Save" type="submit" />
@@ -174,8 +146,8 @@ const Movies = () => {
           </form>
         </Box>
       </Modal>
-    </>
+    </li>
   );
 };
 
-export default Movies;
+export default MovieItem;

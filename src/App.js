@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
 
 import Movies from "./components/Movies";
-import AddNewMovie from "./pages/AddNewMovie";
 import Error from "./pages/Error";
 import Login from "./pages/Login";
 import RootLayout from "./pages/Root";
@@ -38,10 +37,7 @@ const App = () => {
       path: "/",
       element: <RootLayout />,
       errorElement: <Error />,
-      children: [
-        { index: true, element: <Movies /> },
-        { path: "add-movie", element: <AddNewMovie /> },
-      ],
+      children: [{ index: true, element: <Movies /> }],
     },
   ];
 
