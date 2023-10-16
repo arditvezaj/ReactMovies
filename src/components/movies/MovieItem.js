@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "./Button";
+import Button from "../ui/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import Input from "./Input";
-import API from "../api";
+import Input from "../ui/Input";
+import API from "../../api";
 
-const MovieItem = (props) => {
+const MovieItem = ({ movie, onDeleteMovie }) => {
   const [editModal, setEditModal] = useState(false);
 
   const [title, setTitle] = useState("");
@@ -44,7 +44,7 @@ const MovieItem = (props) => {
       return;
     }
     setIsValid(true);
-    editMovie(props.movie.id);
+    editMovie(movie.id);
     setEditModal(false);
     setTitle("");
     setAuthor("");
@@ -67,30 +67,28 @@ const MovieItem = (props) => {
 
   return (
     <li
-      key={props.movie.id}
-      className="flex flex-col justify-center border rounded-md mt-4 w-[60%] p-2"
+      key={movie.id}
+      className="flex flex-col justify-center bg-violet-50 shadow-md border rounded-md w-full p-5"
     >
-      <div className="font-bold">{props.movie.title}</div>
-      <div>Author: {props.movie.author}</div>
-      <div>Type: {props.movie.type}</div>
-      <div className="flex">Description: {props.movie.body}</div>
-      <div className="flex gap-2 justify-end">
-        <button
+      <div className="font-bold">{movie.title}</div>
+      <div>Author: {movie.author}</div>
+      <div>Type: {movie.type}</div>
+      <div className="flex">Description: {movie.description}</div>
+      <div className="flex justify-end">
+        <Button
+          title="Edit"
+          variant="secondary"
           onClick={() => {
             setEditModal(true);
           }}
-          className="p-2 bg-gray-500 w-24 text-white rounded-md"
-        >
-          Edit
-        </button>
-        <button
+        />
+        <Button
+          title="Delete"
+          variant="danger"
           onClick={() => {
-            props.onDeleteMovie(props.movie.id);
+            onDeleteMovie(movie.id);
           }}
-          className="p-2 bg-red-500 w-24 text-white rounded-md"
-        >
-          Delete
-        </button>
+        />
       </div>
 
       <Modal
@@ -113,13 +111,13 @@ const MovieItem = (props) => {
               </p>
             )}
             <Input
-              name="Title:"
+              label="Title:"
               type="text"
               value={title}
               onChange={handleChange(setTitle)}
             />
             <Input
-              name="Author:"
+              label="Author:"
               type="text"
               value={author}
               onChange={handleChange(setAuthor)}
@@ -128,20 +126,22 @@ const MovieItem = (props) => {
             <div className="flex flex-col">
               <label className="mt-5">Description:</label>
               <textarea
-                className="rounded-md border"
+                rows={4}
+                className="rounded-md border w-full"
                 value={description}
                 onChange={handleChange(setDescription)}
               ></textarea>
             </div>
             <div className="flex justify-between items-center">
               <Button
-                name="Cancel"
+                title="Cancel"
                 type="cancel"
+                variant="secondary"
                 onClick={() => {
                   setEditModal(false);
                 }}
               />
-              <Button name="Save" type="submit" />
+              <Button title="Save" variant="primary" type="submit" />
             </div>
           </form>
         </Box>

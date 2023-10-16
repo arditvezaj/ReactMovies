@@ -18,12 +18,11 @@ const MainNavigation = () => {
             <NavLink
               to="/"
               className={`${({ isActive }) =>
-                isActive
-                  ? "bg-violet-200"
-                  : undefined} p-2 rounded-md hover:bg-violet-200 transition-all duration-500`}
+                isActive &&
+                "bg-violet-200"} p-2 font-medium rounded-md hover:bg-violet-200 transition-all duration-500`}
               end
             >
-              Home
+              Movies
             </NavLink>
           </li>
 
